@@ -21,51 +21,33 @@
                 <div id="weather-icon">
                     <img src="./images/sunny.gif" alt="Weather Icon">
                 </div>
-                <div id = "temperature">28°C </div>
+                <div class ="temp-data" id="temp-data"></div>
             </div>
             <div id="weather-text">
-                <div id="condition">SUNNY</div>
+                <div class="condition-data"></div>
             </div>
         </div>
 
-        <div id = "weather-details">
+        <div id ="weather-details">
          <div id="sunset">Sunset:<div id="sunset-data"></div></div>
          <div id="sunrise">Sunrise:<div id="sunrise-data"></div></div>
         </div>
     </div>
 
     <div class="container">
-        <div id = "tabs">
-            <button class="days" data-id = "yesterday">YESTERDAY</button>
+        <div id="tabs">
             <button class="days" data-id = "today">TODAY</button>
             <button class="days" data-id = "tomorrow">TOMORROW</button>
+            <button class="days" data-id = "afer-tomorrow">IN 2 DAYS</button>
         </div>
-        <div id="yesterday" class="tab-content">
-        </div>
-        <div id="today" class="tab-content">
-            <h2>Today's Weather</h2>
-            <p>Temperature: 25°C</p>
-            <p>Condition: Cloudy</p>
-            <p>Humidity: 60%</p>
-            <p>Wind Speed: 15 km/h</p>
-            <p>Last Updated: 2023-10-01 08:00</p>
-        </div>
-        <div id="tomorrow" class="tab-content">
+
+        <div id="tab-data" data-filter="today" class="tab-content">
+            <div class = "infos">Temperature : <div class="temp-data"></div></div>
+            <div class = "infos">Condition: <div class ="condition-data"></div></div>
+            <div class = "infos">Humidity: <div class ="humidity-data"></div></div>
+            <div class = "infos">Wind Speed: <div class="wind-data"></div></div>
         </div>
     </div>
 
-
-        <!-- <p>Current temperature: {{ temperature }}°C</p>
-        <p>Condition: {{ condition }}</p>
-        <p>Humidity: {{ humidity }}%</p>
-        <p>Wind Speed: {{ wind_speed }} km/h</p>
-        <p>Last Updated: {{ last_updated }}</p>
-        <p>Location: {{ location }}</p>
-        <p>Pressure: {{ pressure }} hPa</p>
-        <p>Sunrise: {{ sunrise }}</p>
-        <p>Sunset: {{ sunset }}</p>     
-        <p>Feels Like: {{ feels_like }}°C</p>
-        <p>Air Quality: {{ air_quality }}</p>
-        <p>Precipitation: {{ precipitation }} mm</p> -->
 </body>
 </html>

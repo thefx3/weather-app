@@ -4,38 +4,78 @@ import { getWeather } from "./api.js";
 let currentTab = "today"; // Default tab
 
 const cityInput = document.getElementById("city");
-const condition = document.getElementById("condition");
-const temperature = document.getElementById("temperature");
-const icon = document.querySelector("#weather-icon img");
 const currentCity = document.getElementById("current-location");
+const icon = document.querySelector("#weather-icon img");
 const sunrise = document.getElementById("sunrise-data");
 const sunset = document.getElementById("sunset-data");
 
-async function updateWeather(city) {
+const condition = document.querySelectorAll(".condition-data");
+const temperature = document.querySelectorAll(".temp-data");
+const humidity = document.querySelectorAll(".humidity-data");
+const windspeed = document.querySelectorAll(".wind-data");
+
+let weatherData = [condition, temperature, humidity, windspeed];
+
+
+async function updateWeather(city, tab = "today") {
   try {
     const data = await getWeather(city);
-    console.log(data); // Pour voir toute la structure dans la console
+    console.log(data);
 
-    // Exemple d'affichage :
-    temperature.textContent = `${data.currentConditions.temp}°C`;
-    condition.textContent = data.currentConditions.conditions;
+    let filterData; 
+
+    switch (tab) {
+      case "today":
+        currentTab = "today";
+        filterData = data.days[0];
+        break;
+      case "tomorrow":
+        currentTab = "tomorrow";
+        filterData = data.days[1];
+        break
+      case "after tomorrow":
+        currentTab = "after tomorrow";
+        filterData = data.days[2];
+        break
+      default:
+        currentTab = "today";
+        filterData = data.days[0];
+    }
+
+    weatherData.forEach((dataArray, index) => {
+      dataArray.forEach((element) => {
+        switch (index) {
+          case 0: // condition
+            element.textContent = filterData.conditions;
+            break;
+          case 1: // temperature
+            element.textContent = `${filterData.temp}°C`;
+            break;
+          case 2: // humidity
+            element.textContent = `${filterData.humidity}%`;
+            break;
+          case 3: // windspeed
+            element.textContent = `${filterData.windspeed} km/h`;
+            break;
+        }
+      });
+    }
+    );
     currentCity.textContent = data.resolvedAddress || city;
     sunrise.textContent = data.currentConditions.sunrise;
     sunset.textContent = data.currentConditions.sunset;
     icon.src = `https://raw.githubusercontent.com/visualcrossing/WeatherIcons/main/PNG/1st%20Set%20-%20Color/${data.currentConditions.icon}.png`;
 
-    //Update the tab today
-
   } catch (error) {
-    condition.textContent = "Unable to fetch weather.";
-    temperature.textContent = "--";
+    condition.forEach(el => el.textContent = "Unvailable data");
+    temperature.forEach(el => el.textContent = "--");
+    humidity.forEach(el => el.textContent = "--");
+    windspeed.forEach(el => el.textContent = "--");
+    sunrise.textContent = "--";
+    sunset.textContent = "--";
     icon.src = "";
   }
 }
-
-
-// Appel initial
-updateWeather("Lille");
 
 document.getElementById("current-location").addEventListener("click", () => {
   const city = cityInput.value || "London";
@@ -52,35 +92,27 @@ cityInput.addEventListener("keydown", (e) => {
   }
 });
 
-function showTab(tabName, evt) {
-  // Declare all variables
-  var i, tabcontent, days;
-
-  // Get all elements with class="tabcontent" and hide them
-  tabcontent = document.getElementsByClassName("tab-content");
-  for (i = 0; i < tabcontent.length; i++) {
-    tabcontent[i].style.display = "none";
-  }
-
-  // Get all elements with class="days" and remove the class "active"
-  days = document.getElementsByClassName("days");
-  for (i = 0; i < days.length; i++) {
-    days[i].className = days[i].className.replace(" active", "");
-  }
-
-  // Show the current tab, and add an "active" class to the button that opened the tab
-  document.getElementById(tabName).style.display = "block";
-  evt.currentTarget.className += " active";
-}
-
-//Display the default tab
-showTab(currentTab, { currentTarget: document.querySelector(`.days[data-id="${currentTab}"]`) });
-
+//Update the weather for the default city 
+updateWeather("Paris");
 
 document.querySelectorAll(".days").forEach((day) => {
-day.addEventListener("click", function (evt) {
-  showTab(evt.currentTarget.dataset.id, evt);
-  currentTab = evt.currentTarget.dataset.id;
+  day.addEventListener("click", function (evt) {
+    currentTab = evt.currentTarget.dataset.id;
+    //Add the active class to the clicked tab
+    document.querySelectorAll(".days").forEach((d) => d.classList.remove("active"));
+    evt.currentTarget.classList.add("active");
+    updateWeather(cityInput.value || "Lille", currentTab);
+  });
 });
-}
-);
+
+
+
+
+// document.querySelectorAll(".days").forEach((day) => {
+// day.addEventListener("click", function (evt) {
+//   showTab(evt.currentTarget.dataset.id, evt);
+//   currentTab = evt.currentTarget.dataset.id;
+//   updateWeatherForTab(currentTab, cityInput.value || "Lille");
+// });
+// }
+// );
