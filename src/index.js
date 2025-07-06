@@ -2,6 +2,7 @@ import "./styles.css";
 import { getWeather } from "./api.js";
 
 let currentTab = "today"; // Default tab
+let currentCityName = "Paris"; // Default city
 
 const cityInput = document.getElementById("city");
 const currentCity = document.getElementById("current-location");
@@ -17,7 +18,7 @@ const windspeed = document.querySelectorAll(".wind-data");
 let weatherData = [condition, temperature, humidity, windspeed];
 
 
-async function updateWeather(city, tab = "today") {
+async function updateWeather(city = "Paris", tab = "today") {
   try {
     const data = await getWeather(city);
     console.log(data);
@@ -78,8 +79,8 @@ async function updateWeather(city, tab = "today") {
 }
 
 document.getElementById("current-location").addEventListener("click", () => {
-  const city = cityInput.value || "London";
-  updateWeather(city);
+  const currentCityName = cityInput.value || "Paris";
+  updateWeather(currentCityName, currentTab);
 });
 
 cityInput.addEventListener("keydown", (e) => {
@@ -101,18 +102,6 @@ document.querySelectorAll(".days").forEach((day) => {
     //Add the active class to the clicked tab
     document.querySelectorAll(".days").forEach((d) => d.classList.remove("active"));
     evt.currentTarget.classList.add("active");
-    updateWeather(cityInput.value || "Lille", currentTab);
+    updateWeather(currentCityName, currentTab);
   });
 });
-
-
-
-
-// document.querySelectorAll(".days").forEach((day) => {
-// day.addEventListener("click", function (evt) {
-//   showTab(evt.currentTarget.dataset.id, evt);
-//   currentTab = evt.currentTarget.dataset.id;
-//   updateWeatherForTab(currentTab, cityInput.value || "Lille");
-// });
-// }
-// );
