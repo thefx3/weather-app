@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+<script defer src="main.js"></script></head>
+<body>
+
+
+    <h1>WEATHER INFORMATION </h1>
+    
+    <div id="search-container">
+        <input type="text" id="city" placeholder="Enter city name">
+        <div id="current-location">St Germain-en-Laye</div>
+    </div>
+
+    <div id="weather">
+        <div id="weather-container">
+            <div id="weather-info">
+                <div id="weather-icon">
+                    <img src="d5b2075302fe28c53e43.gif" alt="Weather Icon">
+                </div>
+                <div class ="temp-data" id="temp-data"></div>
+            </div>
+            <div id="weather-text">
+                <div class="condition-data"></div>
+            </div>
+        </div>
+
+        <div id ="weather-details">
+         <div id="sunset">Sunset:<div id="sunset-data"></div></div>
+         <div id="sunrise">Sunrise:<div id="sunrise-data"></div></div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div id="tabs">
+            <button class="days active" data-id = "today">TODAY</button>
+            <button class="days" data-id = "tomorrow">TOMORROW</button>
+            <button class="days" data-id = "afer-tomorrow">IN 2 DAYS</button>
+        </div>
+
+        <div id="tab-data" data-filter="today" class="tab-content">
+            <div class = "infos">Temperature : <div class="temp-data"></div></div>
+            <div class = "infos">Condition: <div class ="condition-data"></div></div>
+            <div class = "infos">Humidity: <div class ="humidity-data"></div></div>
+            <div class = "infos">Wind Speed: <div class="wind-data"></div></div>
+        </div>
+    </div>
+
+</body>
+</html>
